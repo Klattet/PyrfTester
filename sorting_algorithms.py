@@ -3,15 +3,13 @@ from time import perf_counter_ns
 from typing import MutableSequence
 from math import log2
 
-from algorithm import Algorithm, analyse
-
-"""
-----------------------------------------------------------------------------------------------------
-                  Python profiler for functions that are implementing algorithms.
-       Not intended for general performance analysis, but for analysis of various algorithms.
-                           Sorting algorithms, searching algorithms, etc.
-----------------------------------------------------------------------------------------------------
-"""
+def bubble_sort(array: MutableSequence) -> MutableSequence:
+    length = len(array) - 1
+    for i in range(length):
+        for j in range(length):
+            if array[j] > array[j + 1]:
+                array[j:j + 2] = reversed(array[j:j + 2])
+    return array
 
 def insertion_sort(array: MutableSequence[int]) -> None:
     for i in range(1, len(array)):
@@ -154,21 +152,3 @@ if __name__ == "__main__":
         print(f"\nThe approximate time per operation for {algorithm} sort:")
         print(f"Time complexity: O(C * {algorithms[algorithm]['readable']})")
         print(f"C = {round((timed / algorithms[algorithm]['complexity'](num_length, length)) / 1000, 4)}μs")
-
-    """@analyse
-    def bubble_sort(array: MutableSequence[int]) -> MutableSequence[int]:
-        for i in range(len(array) - 1):
-            for j in range(len(array) - 1 - i):
-                if array[j] > array[j + 1]:
-                    array[j], array[j + 1] = array[j + 1], array[j]
-        return array
-
-    length = 20
-
-    array_to_sort = [randint(0, 2 * length) for _ in range(length)]
-
-    bubble_sort(array_to_sort)
-
-    print(bubble_sort.line_operations())
-    print(bubble_sort.overview())"""
-

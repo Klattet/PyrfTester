@@ -5,8 +5,19 @@ from sys import settrace
 from dis import get_instructions, Instruction, Bytecode
 from inspect import getsourcelines
 from functools import cached_property
+from enum import StrEnum
 
-class Algorithm(Callable):
+class Event(StrEnum):
+    CALL = "call" # profile and trace
+    LINE = "line" # trace
+    RETURN = "return" # profile and trace
+    EXCEPTION = "exception" # trace
+    C_CALL = "c_call" # profile
+    C_RETURN = "c_return" # profile
+    C_EXCEPTION = "c_exception" # profile
+    OPCODE = "opcode" # trace
+
+class Profiler(Callable):
 
     def __init__(self, function: Callable) -> None:
         self.function = function
@@ -98,5 +109,5 @@ class Algorithm(Callable):
 
         return result
 
-def analyse(function: Callable) -> Algorithm:
-    return Algorithm(function)
+def profile(function: Callable) -> Profiler:
+    return Profiler(function)
